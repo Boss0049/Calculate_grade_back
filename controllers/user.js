@@ -35,11 +35,13 @@ const login = async (req, res) => {
       const token = jwt.sign(payload, process.env.SECRET_KEY, {
         expiresIn: Number(process.env.TIME_TOKEN),
       });
-      res.status(200).send({
-        message: "Successfully login.",
-        access_token: token,
-        accessToken: token,
+
+      res.cookie("jwt", token, {
+        httpOnly: true,
+        maxAge: 36000,
       });
+
+      res.json({ success: true, token: "JWT " + token });
     } else {
       res.status(400).send({ message: "Username or Password is wrong a" });
     }

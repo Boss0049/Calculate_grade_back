@@ -6,13 +6,25 @@ const fileUpload = require("express-fileupload");
 const db = require("./models");
 const userRoutes = require("./routers/user");
 const calculateRoutes = require("./routers/calculate");
+const cookieParser = require("cookie-parser");
 const app = express();
 
-app.use(cors());
 app.use(fileUpload());
 app.use(express.json());
 app.use(express.static("./images"));
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(
+  cors({
+    origin: [
+      `${process.env.FRONT_URL}`,
+      "http://localhost:3000",
+      "https://mypage.com",
+    ],
+    credentials: true,
+  })
+);
+
 app.use("/users", userRoutes);
 app.use("/calculates", calculateRoutes);
 

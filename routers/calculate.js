@@ -5,6 +5,6 @@ const passport = require("passport");
 
 const auth = passport.authenticate("personal-auth", { session: false });
 
-router.post("/grade", controller.grade);
+router.post("/grade", auth, controller.grade);
 
 module.exports = router;
